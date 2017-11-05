@@ -24,8 +24,8 @@ def vectors(model, dataset, params):
         tf.global_variables_initializer().run()
 
         saver = tf.train.Saver(tf.global_variables())
-        ckpt = tf.train.get_checkpoint_state(params.model)
-        saver.restore(session, ckpt.model_checkpoint_path)
+        #ckpt = tf.train.get_checkpoint_state(params.model)
+        #saver.restore(session, ckpt.model_checkpoint_path)
 
         for collection in dataset.collections:
             save_vectors(

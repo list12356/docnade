@@ -17,8 +17,9 @@ def train(model, dataset, params):
     model_dir = os.path.join(params.model, 'model')
 
     with tf.Session(config=tf.ConfigProto(
-        inter_op_parallelism_threads=params.num_cores,
-        intra_op_parallelism_threads=params.num_cores,
+        log_device_placement=True,
+        #inter_op_parallelism_threads=params.num_cores,
+        #intra_op_parallelism_threads=params.num_cores,
         gpu_options=tf.GPUOptions(allow_growth=True)
     )) as session:
         avg_loss = tf.placeholder(tf.float32, [], 'loss_ph')
@@ -51,7 +52,7 @@ def train(model, dataset, params):
 
         for step in range(params.num_steps + 1):
             _, x, seq_lengths = next(training_data)
-
+           # import pdb; pdb.set_trace()
             _, loss = session.run([model.opt, model.opt_loss], feed_dict={
                 model.x: x,
                 model.seq_lengths: seq_lengths
@@ -141,7 +142,7 @@ def parse_args():
                         help='the batch size')
     parser.add_argument('--num-samples', type=int, default=None,
                         help='softmax samples (default: full softmax)')
-    parser.add_argument('--num-cores', type=int, default=2,
+    parser.add_argument('--num-cores', type=int, default=20,
                         help='the number of CPU cores to use')
     parser.add_argument('--log-every', type=int, default=10,
                         help='print loss after this many steps')

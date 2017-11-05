@@ -134,7 +134,7 @@ class DocNADE(object):
         batch_size = tf.shape(x)[0]
 
         # Do an embedding lookup for each word in each sequence
-        with tf.device('/cpu:0'):
+        with tf.device('/device:GPU:0'):
             # Initialisation scheme taken from the original DocNADE source
             max_embed_init = 1.0 / (params.vocab_size * params.hidden_size)
             W = tf.get_variable(
